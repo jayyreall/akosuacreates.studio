@@ -22,6 +22,12 @@ const linkTo = (fromPath, toPath) => {
 
 const assetTo = (fromPath, assetPath) => `${relativePrefix(fromPath)}${assetPath.replace(/^\//, '')}`;
 
+const renderNavigationItem = (page, item) => `
+  <li>
+    ${item.href ? `<a href="${linkTo(page.path, item.href)}">${item.label}</a>` : `<span class="menu-section">${item.label}</span>`}
+    ${item.children ? `<ul class="submenu">${item.children.map((child) => `<li><a href="${linkTo(page.path, child.href)}">${child.label}</a></li>`).join('')}</ul>` : ''}
+  </li>`;
+
 const renderNavigation = (page) => `
   <header class="site-header">
     <a class="home-mark" href="${linkTo(page.path, '/')}" aria-label="Akosua Creates home">Akosua Creates</a>
@@ -33,13 +39,7 @@ const renderNavigation = (page) => `
     </button>
     <nav class="site-menu" id="site-menu" aria-label="Main navigation">
       <ul>
-        ${navigation
-          .map((item) => `
-          <li>
-            <a href="${linkTo(page.path, item.href)}">${item.label}</a>
-            ${item.children ? `<ul class="submenu">${item.children.map((child) => `<li><a href="${linkTo(page.path, child.href)}">${child.label}</a></li>`).join('')}</ul>` : ''}
-          </li>`)
-          .join('')}
+        ${navigation.map((item) => renderNavigationItem(page, item)).join('')}
       </ul>
     </nav>
   </header>`;
@@ -64,14 +64,10 @@ const renderPage = (page) => `<!doctype html>
 `;
 
 const renderHome = (page) => `
-  <section class="hero" aria-labelledby="page-title">
-    <div class="hero-copy">
-      <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
-      <h1 id="page-title">${escapeHtml(page.title)}</h1>
-      <p>${escapeHtml(page.description)}</p>
-    </div>
+  <section class="home-artwork" aria-labelledby="page-title">
+    <h1 id="page-title" class="sr-only">${escapeHtml(page.title)}</h1>
     <figure class="hero-art">
-      <img src="${assetTo(page.path, '/images/homepage-art-reference.jpeg')}" alt="Black hand-drawn line art on an off-white paper background for Akosua Creates">
+      <img src="${assetTo(page.path, '/images/homepage-art-cleaned.svg')}" alt="Black hand-drawn line art on an off-white paper background with the handwritten words Akosua Creates">
     </figure>
   </section>`;
 

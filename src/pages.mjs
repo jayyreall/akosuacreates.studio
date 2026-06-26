@@ -2,7 +2,6 @@ export const navigation = [
   { label: 'About The Artist', href: '/about/' },
   {
     label: 'Portfolio',
-    href: '/portfolio/digital-art/',
     children: [
       { label: 'Digital Art', href: '/portfolio/digital-art/' },
       { label: 'Physical Art', href: '/portfolio/physical-art/' },
@@ -15,9 +14,7 @@ export const pages = [
   {
     path: '/',
     title: 'Akosua Creates',
-    eyebrow: 'artist studio',
-    description:
-      'A quiet studio space for ink, paper, poetry, and tactile works in progress.',
+    description: 'Akosua Creates homepage artwork.',
     home: true,
   },
   {

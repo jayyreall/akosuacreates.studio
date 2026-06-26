@@ -125,11 +125,17 @@ a {
   margin-top: 0.9rem;
 }
 
-.site-menu a {
+.site-menu a,
+.menu-section {
   display: inline-block;
   font-size: 1.05rem;
   letter-spacing: 0.03em;
   text-decoration: none;
+}
+
+.menu-section {
+  cursor: default;
+  font-style: italic;
 }
 
 .site-menu a:focus-visible,
@@ -157,17 +163,32 @@ a {
   padding: 7rem 0 3rem;
 }
 
-.hero {
+.home-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.72fr) minmax(18rem, 1fr);
-  align-items: center;
-  gap: clamp(2rem, 6vw, 5rem);
-  min-height: calc(100vh - 10rem);
+  place-items: center;
+  width: min(1180px, calc(100% - 1.25rem));
+  padding: 5.75rem 0 2rem;
 }
 
-.hero-copy {
-  align-self: end;
-  padding-bottom: clamp(1rem, 8vh, 5rem);
+.home-artwork {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: calc(100vh - 8rem);
+}
+
+.hero-art {
+  width: min(100%, 1025px);
+  margin: 0;
+}
+
+.hero-art img {
+  display: block;
+  width: 100%;
+  max-height: min(82vh, 988px);
+  object-fit: contain;
+  filter: contrast(1.04) grayscale(1);
+  mix-blend-mode: multiply;
 }
 
 .eyebrow {
@@ -191,19 +212,6 @@ p {
   color: var(--soft-ink);
   font-size: clamp(1.08rem, 2vw, 1.35rem);
   line-height: 1.7;
-}
-
-.hero-art {
-  margin: 0;
-}
-
-.hero-art img {
-  display: block;
-  width: 100%;
-  max-height: 78vh;
-  object-fit: contain;
-  filter: contrast(1.04) grayscale(1);
-  mix-blend-mode: multiply;
 }
 
 .paper-card {
@@ -258,21 +266,16 @@ p {
     left: 1rem;
   }
 
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  .home-layout {
+    width: min(100%, calc(100% - 0.75rem));
+    padding-top: 5.5rem;
   }
 
-  .hero-copy {
-    order: 2;
-    padding-bottom: 0;
-  }
-
-  .hero-art {
-    order: 1;
+  .home-artwork {
+    min-height: calc(100vh - 7.5rem);
   }
 
   .hero-art img {
-    max-height: 52vh;
+    max-height: 72vh;
   }
 }
