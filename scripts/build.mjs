@@ -9,9 +9,22 @@ const dist = join(root, 'dist');
 const escapeHtml = (value) =>
   value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
-const renderNavigation = () => `
+const relativePrefix = (path) => {
+  const depth = path.split('/').filter(Boolean).length;
+  return depth === 0 ? './' : '../'.repeat(depth);
+};
+
+const linkTo = (fromPath, toPath) => {
+  const prefix = relativePrefix(fromPath);
+  if (toPath === '/') return prefix;
+  return `${prefix}${toPath.replace(/^\//, '')}`;
+};
+
+const assetTo = (fromPath, assetPath) => `${relativePrefix(fromPath)}${assetPath.replace(/^\//, '')}`;
+
+const renderNavigation = (page) => `
   <header class="site-header">
-    <a class="home-mark" href="/" aria-label="Akosua Creates home">Akosua Creates</a>
+    <a class="home-mark" href="${linkTo(page.path, '/')}" aria-label="Akosua Creates home">Akosua Creates</a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
       <span class="sr-only">Open navigation menu</span>
       <span aria-hidden="true"></span>
@@ -23,8 +36,8 @@ const renderNavigation = () => `
         ${navigation
           .map((item) => `
           <li>
-            <a href="${item.href}">${item.label}</a>
-            ${item.children ? `<ul class="submenu">${item.children.map((child) => `<li><a href="${child.href}">${child.label}</a></li>`).join('')}</ul>` : ''}
+            <a href="${linkTo(page.path, item.href)}">${item.label}</a>
+            ${item.children ? `<ul class="submenu">${item.children.map((child) => `<li><a href="${linkTo(page.path, child.href)}">${child.label}</a></li>`).join('')}</ul>` : ''}
           </li>`)
           .join('')}
       </ul>
@@ -38,11 +51,11 @@ const renderPage = (page) => `<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="${escapeHtml(page.description)}">
   <title>${escapeHtml(page.title)} | Akosua Creates</title>
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/menu.js" defer></script>
+  <link rel="stylesheet" href="${assetTo(page.path, '/styles.css')}">
+  <script src="${assetTo(page.path, '/menu.js')}" defer></script>
 </head>
 <body>
-  ${renderNavigation()}
+  ${renderNavigation(page)}
   <main class="${page.home ? 'home-layout' : 'page-layout'}">
     ${page.home ? renderHome(page) : renderInterior(page)}
   </main>
@@ -58,7 +71,7 @@ const renderHome = (page) => `
       <p>${escapeHtml(page.description)}</p>
     </div>
     <figure class="hero-art">
-      <img src="/images/homepage-art-reference.jpeg" alt="Black hand-drawn line art on an off-white paper background for Akosua Creates">
+      <img src="${assetTo(page.path, '/images/homepage-art-reference.jpeg')}" alt="Black hand-drawn line art on an off-white paper background for Akosua Creates">
     </figure>
   </section>`;
 
@@ -67,7 +80,7 @@ const renderInterior = (page) => `
     <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
     <h1 id="page-title">${escapeHtml(page.title)}</h1>
     <p>${escapeHtml(page.description)}</p>
-    <a class="return-link" href="/">Return home</a>
+    <a class="return-link" href="${linkTo(page.path, '/')}">Return home</a>
   </article>`;
 
 await rm(dist, { recursive: true, force: true });
