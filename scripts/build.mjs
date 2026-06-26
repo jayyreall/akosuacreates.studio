@@ -67,7 +67,7 @@ const renderHome = (page) => `
   <section class="home-artwork" aria-labelledby="page-title">
     <h1 id="page-title" class="sr-only">${escapeHtml(page.title)}</h1>
     <figure class="hero-art">
-      <img src="${assetTo(page.path, '/images/homepage-art-cleaned.svg')}" alt="Black hand-drawn line art on an off-white paper background with the handwritten words Akosua Creates">
+      <img src="${assetTo(page.path, '/images/homepage-art-reference2.png')}" alt="Black hand-drawn line art on an off-white paper background with the handwritten words Akosua Creates">
     </figure>
   </section>`;
 
